@@ -57,7 +57,7 @@ function handleSaveFileSelect(evt) {
 
 function main() {
   getEl('b__downloadData').addEventListener('click', downloadJSON, false)
-  getEl('b__upoadData').addEventListener('click', uploadJSON, false)
+  getEl('b__uploadData').addEventListener('click', uploadJSON, false)
 }
 
 main()
