@@ -112,9 +112,8 @@ function handleSaveFileSelect(evt) {
   }
 
   const reader = new FileReader()
-  reader.onload = (function (_) {
-    // FIXME implement!
-    // allPage.innerHTML = e.target.result
+  reader.onload = (function (e) {
+    unserializeTable(e.target.result)
   })
   reader.readAsText(file)
 }
