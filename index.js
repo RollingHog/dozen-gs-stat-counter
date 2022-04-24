@@ -28,6 +28,18 @@ function createElementFromHTML(htmlString) {
   return div.firstElementChild
 }
 
+////////////// LOCALSTORAGE OPERATIONS /////////////
+
+const LS_STATS_JSON_KEY = 'STATS'
+
+function saveToStorage() {
+  localStorage.setItem(LS_STATS_JSON_KEY, JSON.stringify(serializeTable()))
+}
+
+function loadFromStorage() {
+  unserializeTable(localStorage.getItem(LS_STATS_JSON_KEY))
+}
+
 //////////////////// DATA SERIALIZATION/SAVING/LOADING ///////////////////////
 
 function serializeTable() {
@@ -47,6 +59,20 @@ function serializeTable() {
   }
 
   return json
+}
+
+function unserializeTable(str) {
+  if(!str) return null
+
+  let json
+  json = JSON.parse(str)
+
+  for (let i of ECharacteristicsList) {
+    getEl(`${i}-сессия`).innerText = +json.stats.session[i]
+    getEl(`${i}-всего`).innerText = +json.stats.total[i]
+  }
+
+  //TODO add save/load of other fields
 }
 
 function downloadJSON() {
@@ -95,10 +121,6 @@ function handleSaveFileSelect(evt) {
 
 ////////////////////// STAT TABLE ///////////////////////
 
-function loadStatData() {
-
-}
-
 function fillStatTable(statJSON = {}) {
   STATS_TABLE_EL.tBodies[0].innerHTML = ''
 
@@ -110,7 +132,7 @@ function fillStatTable(statJSON = {}) {
       <td>${+i + 1}</td>
       <td id='${statName}-кнопка' onclick=statTableClick(this)>${statName}</td>
       <td id='${statName}-сессия' class="сессия">0</td>
-      <td id='${statName}-всего'  class="всего" >${statJSON[statName] || 0}</td>
+      <td id='${statName}-всего'  contenteditable=true class="всего" >${statJSON[statName] || 0}</td>
       </tr>`
   }
 }
@@ -126,6 +148,8 @@ function statTableClick(el) {
 
   if(lastStats.length == 10) lastStats.shift()
   lastStats.push(statName)
+
+  saveToStorage()
 }
 
 function undoClick() {
@@ -134,27 +158,39 @@ function undoClick() {
 
   getEl(`${lastStat}-сессия`).innerText = +getEl(`${lastStat}-сессия`).innerText - 1
   getEl(`${lastStat}-всего`).innerText  = +getEl(`${lastStat}-всего`).innerText  - 1
+
+  saveToStorage()
 }
 
 function endSessionClick() {
   for (let i of document.querySelectorAll('.сессия')) {
     i.innerText = 0
   }
+  saveToStorage()
+}
+
+function onVisibility() {
+  if (document.visibilityState === 'hidden') {
+    //TODO set LS flag "closed properly"
+  }
 }
 
 function init() {
-  loadStatData()
-
   getEl('b__downloadData').onclick = downloadJSON
   getEl('b__uploadData').addEventListener('click', uploadJSON, false)
   getEl('b__endSession').onclick = endSessionClick
   getEl('b__undo').onclick = undoClick
 
+  document.addEventListener("visibilitychange", onVisibility)
+
   fillStatTable()
+
+  loadFromStorage()
 }
 
 try {
   init()
 } catch (e) {
   alert(e)
+  console.error(e)
 }
