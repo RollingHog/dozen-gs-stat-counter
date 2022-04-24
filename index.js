@@ -119,6 +119,7 @@ function handleSaveFileSelect(evt) {
       alert(e)
       console.error(e)
     }
+    saveToStorage()
   })
   reader.readAsText(file)
 }
