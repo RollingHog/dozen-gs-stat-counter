@@ -8,6 +8,10 @@
   <style>
     body {
       margin: 0;
+      margin-bottom: 1vh;
+
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     #table__stats {
@@ -47,13 +51,19 @@
       padding: 6px;
     }
 
-    #b__undo, #b__endSession {
+    #b__undo, #b__endSession, #b__allowEditSummary {
       height: 8vh;
-      width: 100vw;
+      width: 96vw;
+      margin-left: 2vw;
     }
 
     .margin-top {
       margin-top: 1vh;
+    }
+
+    .margin-sides {
+      margin-left: 1vh;
+      margin-right: 1vh;
     }
 
     #table__stats, #b__confirm, #b__endSession {
@@ -63,7 +73,7 @@
 
     #b__downloadData, #b__uploadData {
       height: 8vh;
-      width: 48vw;
+      width: 47vw;
     }
   </style>
 </head>
@@ -84,10 +94,11 @@
   <button id="b__undo" class="margin-top">&#8630;</button>
   <button id="b__endSession" class="margin-top">Конец сессии</button>
   <!-- exported data manipulation -->
-  <div class="margin-top">
+  <div class="margin-top margin-sides">
     <button id="b__downloadData" >Скачать</button>
     <button id="b__uploadData" style="float: right;">Загрузить</button>
   </div>
+  <button id="b__allowEditSummary" class="margin-top">Изменение "Всего" вкл/выкл</button>
 
 </body>
 <script src="index.js"></script>

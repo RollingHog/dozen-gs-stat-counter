@@ -136,7 +136,7 @@ function fillStatTable(statJSON = {}) {
       <td>${+i + 1}</td>
       <td id='${statName}-кнопка' onclick=statTableClick(this)>${statName}</td>
       <td id='${statName}-сессия' class="сессия">0</td>
-      <td id='${statName}-всего'  contenteditable=true class="всего" >${statJSON[statName] || 0}</td>
+      <td id='${statName}-всего'  contenteditable=false class="всего" >${statJSON[statName] || 0}</td>
       </tr>`
   }
 }
@@ -175,6 +175,14 @@ function endSessionClick() {
   lastStats = []
 }
 
+function switchSummaryEditClick() {
+  for(let i of Array.from(document.querySelectorAll('.всего')) ) {
+    log(JSON.stringify(i.contentEditable))
+    i.contentEditable = i.contentEditable == 'true' ? 'false' : 'true'
+    log(JSON.stringify(i.contentEditable))
+  }
+}
+
 function onVisibility() {
   if (document.visibilityState === 'hidden') {
     //TODO set LS flag "closed properly"
@@ -186,6 +194,7 @@ function init() {
   getEl('b__uploadData').addEventListener('click', uploadJSON, false)
   getEl('b__endSession').onclick = endSessionClick
   getEl('b__undo').onclick = undoClick
+  getEl('b__allowEditSummary').onclick = switchSummaryEditClick
 
   document.addEventListener("visibilitychange", onVisibility)
 
