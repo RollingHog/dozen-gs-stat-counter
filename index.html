@@ -31,10 +31,13 @@
       text-align: center;
     }
 
-    #b__confirm, #b__endSession {
-      margin-top: 1vh;
+    #b__endSession {
       height: 8vh;
       width: 100vw;
+    }
+
+    .margin-top {
+      margin-top: 1vh;
     }
 
     #table__stats, #b__confirm, #b__endSession {
@@ -42,8 +45,9 @@
       max-height: 900px;
     }
 
+    #b__undo, #b__confirm, 
     #b__downloadData, #b__uploadData {
-      height: 9vh;
+      height: 8vh;
       width: 48vw;
     }
   </style>
@@ -61,11 +65,17 @@
     </thead>
     <tbody></tbody>
   </table>
-  <button id="b__confirm">&check;</button>
-  <button id="b__endSession">Конец сессии</button>
-  <br><br>
-  <button id="b__downloadData" >Скачать</button>
-  <button id="b__uploadData"   style="float: right;">Загрузить</button>
+  <!-- buttons -->
+  <div class="margin-top">
+    <button id="b__undo">&#8630;</button>
+    <button id="b__confirm" style="float: right;">&check;</button>
+  </div>
+  <button id="b__endSession" class="margin-top">Конец сессии</button>
+  <!-- exported data manipulation -->
+  <div class="margin-top">
+    <button id="b__downloadData" >Скачать</button>
+    <button id="b__uploadData" style="float: right;">Загрузить</button>
+  </div>
 
 </body>
 <script src="index.js"></script>
