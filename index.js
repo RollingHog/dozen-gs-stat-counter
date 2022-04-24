@@ -30,7 +30,8 @@ function createElementFromHTML(htmlString) {
 
 ////////////// LOCALSTORAGE OPERATIONS /////////////
 
-const LS_STATS_JSON_KEY = 'STATS'
+//TODO add name/time checking to avoid overwrite?
+const LS_STATS_JSON_KEY = 'STATS.LATEST'
 
 function saveToStorage() {
   localStorage.setItem(LS_STATS_JSON_KEY, JSON.stringify(serializeTable()))
@@ -46,6 +47,7 @@ function serializeTable() {
   const json = {
     // FIXME add game name requesting!
     gameName: 'test',
+    timestamp: (new Date()).toJSON(),
     sessionsCount: 0,
     stats: {
       session: {},
