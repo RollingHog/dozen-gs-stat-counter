@@ -50,10 +50,26 @@
       padding: 6px;
     }
 
-    #b__undo, #b__endSession, #b__allowEditSummary, #b__clearStorage {
+    #table__stats {
+      max-width: 768px;
+    }
+
+    div.container, button {
+      max-width: 800px;
+    }
+
+    button {
       display: block;
       height: 8vh;
-      width: 96vw;
+    }
+
+    #b__undo, #b__endSession, #b__allowEditSummary, #b__clearStorage {
+      width: 100%;
+    }
+
+    #b__downloadData, #b__uploadData {
+      display: inline;
+      width: 47%;
     }
 
     .margin-top {
@@ -65,14 +81,23 @@
       margin-right: 1vh;
     }
 
-    #table__stats, div.container, button {
-      max-width: 500px;
-      max-height: 1000px;
-    }
+    @media screen and (min-width:500px) {
+      #table__stats {
+        position: absolute;
+        left: 0;
+        max-width: 75vw;
+      }
 
-    #b__downloadData, #b__uploadData {
-      height: 8vh;
-      width: 47%;
+      #c__buttons {
+        position: absolute;
+        right: 0;
+        width: 23vw;
+        height: 100vh;
+      }
+
+      button, .inline-container {
+        height: 18.8vh;
+      }
     }
   </style>
 </head>
@@ -90,11 +115,11 @@
     <tbody></tbody>
   </table>
   <!-- buttons -->
-  <div class="container margin-sides">
+  <div id="c__buttons" class="container margin-sides">
     <button id="b__undo" class="margin-top">&#8630;</button>
     <button id="b__endSession" class="margin-top">Конец сессии</button>
     <!-- data file save/load -->
-    <div class="margin-top">
+    <div class="margin-top inline-container">
       <button id="b__downloadData" >Скачать</button>
       <button id="b__uploadData" style="float: right;">Загрузить</button>
     </div>
