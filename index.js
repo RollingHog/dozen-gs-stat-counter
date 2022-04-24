@@ -163,10 +163,12 @@ function undoClick() {
 }
 
 function endSessionClick() {
+  if(!confirm('Закончить сессию?')) return
   for (let i of document.querySelectorAll('.сессия')) {
     i.innerText = 0
   }
   saveToStorage()
+  lastStats = []
 }
 
 function onVisibility() {
