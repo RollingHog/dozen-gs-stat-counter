@@ -107,13 +107,18 @@ function handleSaveFileSelect(evt) {
   const file = evt.target.files[0]
 
   if (file.type != 'application/json') {
-    alert('should be .gs-dozen.json file!')
+    alert('should be "<name>.gs-dozen.json" file!')
     return
   }
 
   const reader = new FileReader()
   reader.onload = (function (e) {
-    unserializeTable(e.target.result)
+    try {
+      unserializeTable(e.target.result)
+    } catch(e) {
+      alert(e)
+      console.error(e)
+    }
   })
   reader.readAsText(file)
 }
