@@ -186,10 +186,9 @@ function endSessionClick() {
 
 function switchSummaryEditClick() {
   for(let i of Array.from(document.querySelectorAll('.всего')) ) {
-    log(JSON.stringify(i.contentEditable))
     i.contentEditable = i.contentEditable == 'true' ? 'false' : 'true'
-    log(JSON.stringify(i.contentEditable))
   }
+  saveToStorage()
 }
 
 function onClearStorageClick() {
