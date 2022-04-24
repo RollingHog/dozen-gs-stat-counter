@@ -1,3 +1,22 @@
+const ECharacteristicsList = [
+  'Бой',
+  'Внимательность',
+  'Выживание',
+  'Знание',
+  'Коварство',
+
+  'Ловкость',
+  'Ремесло',
+  'Социализация',
+  'Телосложение',
+]
+
+/** @type {HTMLTableElement} */
+const STATS_TABLE_EL = getEl('table__stats')
+const UNDO_BUTTON_EL = getEl('b__undo')
+
+////////////////////// COMMON ///////////////////////
+
 // eslint-disable-next-line no-unused-vars
 const log = console.log
 function getEl(name) {
@@ -5,19 +24,21 @@ function getEl(name) {
 }
 
 function createElementFromHTML(htmlString) {
-  var div = document.createElement('div')
+  const div = document.createElement('div')
   div.innerHTML = htmlString.trim()
-  return div.firstChild
+  return div.firstElementChild
 }
+
+//////////////////// UPLOAD/DOWNLOAD JSON ///////////////////////
 
 function downloadJSON() {
   const DOWNLOAD_EL_NAME = 'downloadhref'
   // FIXME
   const json = {}
 
-  if( !getEl(DOWNLOAD_EL_NAME)) {
+  if (!getEl(DOWNLOAD_EL_NAME)) {
     document.body.appendChild(
-      createElementFromHTML('<a id="' + DOWNLOAD_EL_NAME + '" hidden download="dicestat.gs-dozen.json"></a>')
+      createElementFromHTML(`<a id="${DOWNLOAD_EL_NAME}" hidden download="dicestat.gs-dozen.json"></a>`)
     )
   }
 
@@ -28,9 +49,9 @@ function downloadJSON() {
 function uploadJSON() {
   const UPLOAD_EL_NAME = 'fileUploadEl'
 
-  if( !getEl(UPLOAD_EL_NAME)) {
+  if (!getEl(UPLOAD_EL_NAME)) {
     document.body.appendChild(
-      createElementFromHTML('<input type="file" id="' + UPLOAD_EL_NAME + '" name="fileUploadEl" hidden/>')
+      createElementFromHTML(`<input type="file" id="${UPLOAD_EL_NAME}" name="fileUploadEl" hidden/>`)
     )
     getEl(UPLOAD_EL_NAME).addEventListener('change', handleSaveFileSelect, false)
   }
@@ -42,22 +63,69 @@ function handleSaveFileSelect(evt) {
   //see FileList
   const file = evt.target.files[0]
 
-  if(file.type != 'application/json') {
+  if (file.type != 'application/json') {
     alert('should be .gs-dozen.json file!')
     return
   }
 
   const reader = new FileReader()
-  reader.onload = (function(_) {
+  reader.onload = (function (_) {
     // FIXME implement!
     // allPage.innerHTML = e.target.result
-  } )
+  })
   reader.readAsText(file)
 }
 
-function main() {
-  getEl('b__downloadData').addEventListener('click', downloadJSON, false)
-  getEl('b__uploadData').addEventListener('click', uploadJSON, false)
+////////////////////// STAT TABLE ///////////////////////
+
+function loadStatData() {
+
 }
 
-main()
+function fillStatTable(statJSON = {}) {
+  STATS_TABLE_EL.tBodies[0].innerHTML = ''
+
+  let statName = null
+  let el = null
+  for (let i in ECharacteristicsList) {
+    statName = ECharacteristicsList[i]
+    STATS_TABLE_EL.tBodies[0].innerHTML +=
+      `<tr id='${statName}-row'>
+      <td>${+i + 1}</td>
+      <td id='${statName}-кнопка' onclick=statTableClick(this)>${statName}</td>
+      <td id='${statName}-сессия' class="сессия">0</td>
+      <td id='${statName}-всего'  class="всего" >${statJSON[statName] || 0}</td>
+      </tr>`
+      getEl(`${statName}-кнопка`).addEventListener('click', statTableClick)
+  }
+}
+
+/** @param {HTMLTableCellElement} */
+function statTableClick(el) {
+  const statName = el.innerText
+  getEl(`${statName}-сессия`).innerText = +getEl(`${statName}-сессия`).innerText + 1
+  getEl(`${statName}-всего`).innerText = +getEl(`${statName}-всего`).innerText + 1
+}
+
+function endSessionClick() {
+  for (let i of document.querySelectorAll('.сессия')) {
+    i.innerText = 0
+  }
+}
+
+//TODO add 'undo last click' button
+function init() {
+  loadStatData()
+
+  getEl('b__downloadData').onclick = downloadJSON
+  getEl('b__uploadData').addEventListener('click', uploadJSON, false)
+  getEl('b__endSession').onclick = endSessionClick
+
+  fillStatTable()
+}
+
+try {
+  init()
+} catch (e) {
+  alert(e)
+}
