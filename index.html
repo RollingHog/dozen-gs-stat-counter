@@ -51,9 +51,9 @@
     }
 
     #b__undo, #b__endSession, #b__allowEditSummary, #b__clearStorage {
+      display: block;
       height: 8vh;
       width: 96vw;
-      margin-left: 2vw;
     }
 
     .margin-top {
@@ -65,14 +65,14 @@
       margin-right: 1vh;
     }
 
-    #table__stats, #b__confirm, #b__endSession {
-      max-width: 800px;
+    #table__stats, div.container, button {
+      max-width: 500px;
       max-height: 1000px;
     }
 
     #b__downloadData, #b__uploadData {
       height: 8vh;
-      width: 47vw;
+      width: 47%;
     }
   </style>
 </head>
@@ -90,15 +90,18 @@
     <tbody></tbody>
   </table>
   <!-- buttons -->
-  <button id="b__undo" class="margin-top">&#8630;</button>
-  <button id="b__endSession" class="margin-top">Конец сессии</button>
-  <!-- exported data manipulation -->
-  <div class="margin-top margin-sides">
-    <button id="b__downloadData" >Скачать</button>
-    <button id="b__uploadData" style="float: right;">Загрузить</button>
+  <div class="container margin-sides">
+    <button id="b__undo" class="margin-top">&#8630;</button>
+    <button id="b__endSession" class="margin-top">Конец сессии</button>
+    <!-- data file save/load -->
+    <div class="margin-top">
+      <button id="b__downloadData" >Скачать</button>
+      <button id="b__uploadData" style="float: right;">Загрузить</button>
+    </div>
+    <!-- other options -->
+    <button id="b__allowEditSummary" class="margin-top">Ручной ввод столбца "Всего" вкл/выкл</button>
+    <button id="b__clearStorage" class="margin-top">Очистить локальное хранилище</button>
   </div>
-  <button id="b__allowEditSummary" class="margin-top">Ручной ввод столбца "Всего" вкл/выкл</button>
-  <button id="b__clearStorage" class="margin-top">Очистить локальное хранилище</button>
 
 </body>
 <script src="index.js"></script>
