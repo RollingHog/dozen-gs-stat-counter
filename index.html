@@ -13,7 +13,7 @@
     #table__stats {
       border: 1px solid grey;
       width: 100vw;
-      height: 90vh;
+      height: 99vh;
       border-collapse: collapse;
     }
 
@@ -47,7 +47,7 @@
       padding: 6px;
     }
 
-    #b__endSession {
+    #b__undo, #b__endSession {
       height: 8vh;
       width: 100vw;
     }
@@ -58,10 +58,9 @@
 
     #table__stats, #b__confirm, #b__endSession {
       max-width: 800px;
-      max-height: 900px;
+      max-height: 1000px;
     }
 
-    #b__undo, #b__confirm, 
     #b__downloadData, #b__uploadData {
       height: 8vh;
       width: 48vw;
@@ -82,10 +81,7 @@
     <tbody></tbody>
   </table>
   <!-- buttons -->
-  <div class="margin-top">
-    <button id="b__undo">&#8630;</button>
-    <button id="b__confirm" style="float: right;">&check;</button>
-  </div>
+  <button id="b__undo" class="margin-top">&#8630;</button>
   <button id="b__endSession" class="margin-top">Конец сессии</button>
   <!-- exported data manipulation -->
   <div class="margin-top">

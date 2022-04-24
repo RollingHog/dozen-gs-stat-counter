@@ -13,7 +13,6 @@ const ECharacteristicsList = [
 
 /** @type {HTMLTableElement} */
 const STATS_TABLE_EL = getEl('table__stats')
-const UNDO_BUTTON_EL = getEl('b__undo')
 
 ////////////////////// COMMON ///////////////////////
 
@@ -86,7 +85,6 @@ function fillStatTable(statJSON = {}) {
   STATS_TABLE_EL.tBodies[0].innerHTML = ''
 
   let statName = null
-  let el = null
   for (let i in ECharacteristicsList) {
     statName = ECharacteristicsList[i]
     STATS_TABLE_EL.tBodies[0].innerHTML +=
@@ -96,15 +94,28 @@ function fillStatTable(statJSON = {}) {
       <td id='${statName}-сессия' class="сессия">0</td>
       <td id='${statName}-всего'  class="всего" >${statJSON[statName] || 0}</td>
       </tr>`
-      getEl(`${statName}-кнопка`).addEventListener('click', statTableClick)
   }
 }
 
-/** @param {HTMLTableCellElement} */
+let lastStats = []
+
+/** @param {HTMLTableCellElement} el*/
+// eslint-disable-next-line no-unused-vars
 function statTableClick(el) {
   const statName = el.innerText
   getEl(`${statName}-сессия`).innerText = +getEl(`${statName}-сессия`).innerText + 1
   getEl(`${statName}-всего`).innerText = +getEl(`${statName}-всего`).innerText + 1
+
+  if(lastStats.length == 10) lastStats.shift()
+  lastStats.push(statName)
+}
+
+function undoClick() {
+  const lastStat = lastStats.pop()
+  if(!lastStat) return
+
+  getEl(`${lastStat}-сессия`).innerText = +getEl(`${lastStat}-сессия`).innerText - 1
+  getEl(`${lastStat}-всего`).innerText  = +getEl(`${lastStat}-всего`).innerText  - 1
 }
 
 function endSessionClick() {
@@ -113,13 +124,13 @@ function endSessionClick() {
   }
 }
 
-//TODO add 'undo last click' button
 function init() {
   loadStatData()
 
   getEl('b__downloadData').onclick = downloadJSON
   getEl('b__uploadData').addEventListener('click', uploadJSON, false)
   getEl('b__endSession').onclick = endSessionClick
+  getEl('b__undo').onclick = undoClick
 
   fillStatTable()
 }
