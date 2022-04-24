@@ -28,12 +28,30 @@ function createElementFromHTML(htmlString) {
   return div.firstElementChild
 }
 
-//////////////////// UPLOAD/DOWNLOAD JSON ///////////////////////
+//////////////////// DATA SERIALIZATION/SAVING/LOADING ///////////////////////
+
+function serializeTable() {
+  const json = {
+    // FIXME add game name requesting!
+    gameName: 'test',
+    sessionsCount: 0,
+    stats: {
+      session: {},
+      total:   {}
+    }
+  }
+
+  for (let i of ECharacteristicsList) {
+    json.stats.session[i] = +getEl(`${i}-сессия`).innerText
+    json.stats.total[i]   = +getEl(`${i}-всего`).innerText
+  }
+
+  return json
+}
 
 function downloadJSON() {
   const DOWNLOAD_EL_NAME = 'downloadhref'
-  // FIXME
-  const json = {}
+  const json = serializeTable()
 
   if (!getEl(DOWNLOAD_EL_NAME)) {
     document.body.appendChild(
@@ -41,7 +59,7 @@ function downloadJSON() {
     )
   }
 
-  getEl(DOWNLOAD_EL_NAME).href = 'data:application/json;charset=utf-8, ' + JSON.stringify(json)
+  getEl(DOWNLOAD_EL_NAME).href = 'data:application/json;charset=utf-8, ' + JSON.stringify(json, null, '\t')
   getEl(DOWNLOAD_EL_NAME).click()
 }
 
