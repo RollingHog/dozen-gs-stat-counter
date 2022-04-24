@@ -9,6 +9,9 @@ const ECharacteristicsList = [
   'Ремесло',
   'Социализация',
   'Телосложение',
+
+  'Удача',
+  'Скверна',
 ]
 
 /** @type {HTMLTableElement} */
