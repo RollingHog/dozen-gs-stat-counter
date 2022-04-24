@@ -140,9 +140,9 @@ function fillStatTable(statJSON = {}) {
     STATS_TABLE_EL.tBodies[0].innerHTML +=
       `<tr id='${statName}-row'>
       <td>${+i + 1}</td>
-      <td id='${statName}-кнопка' onclick=statTableClick(this)>${statName}</td>
-      <td id='${statName}-сессия' class="сессия">0</td>
-      <td id='${statName}-всего'  contenteditable=false class="всего" >${statJSON[statName] || 0}</td>
+      <td id='${statName}-кнопка' onclick="statTableClick('${statName}')" >${statName}</td>
+      <td id='${statName}-сессия' onclick="statTableClick('${statName}')" class="сессия">0</td>
+      <td id='${statName}-всего'  contenteditable=false                   class="всего" >${statJSON[statName] || 0}</td>
       </tr>`
   }
 }
@@ -151,8 +151,7 @@ let lastStats = []
 
 /** @param {HTMLTableCellElement} el*/
 // eslint-disable-next-line no-unused-vars
-function statTableClick(el) {
-  const statName = el.innerText
+function statTableClick(statName) {
   getEl(`${statName}-сессия`).innerText = +getEl(`${statName}-сессия`).innerText + 1
   getEl(`${statName}-всего`).innerText = +getEl(`${statName}-всего`).innerText + 1
 
