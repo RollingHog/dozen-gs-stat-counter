@@ -5,10 +5,68 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Статистика бросков - ИС "Дюжина"</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    #table__stats {
+      border: 1px solid grey;
+      width: 100vw;
+      height: 90vh;
+    }
+
+    #table__stats thead {
+      background-color: grey;
+      color: white;
+      /* height: 2vh; */
+    }
+
+    #table__stats tbody tr {
+      height: 10%;
+      /* max-height: 100px; */
+    }
+
+    #table__stats tbody td:first-child {
+      text-align: center;
+    }
+
+    #b__confirm, #b__endSession {
+      margin-top: 1vh;
+      height: 8vh;
+      width: 100vw;
+    }
+
+    #table__stats, #b__confirm, #b__endSession {
+      max-width: 800px;
+      max-height: 900px;
+    }
+
+    #b__downloadData, #b__uploadData {
+      height: 9vh;
+      width: 48vw;
+    }
+  </style>
 </head>
 <body>
-  <button id="b__downloadData">Скачать</button>
-  <button id="b__uploadData">Загрузить</button>
+
+  <table id="table__stats">
+    <thead>
+      <tr>
+        <th>№</th>
+        <th>Характеристика</th>
+        <th>Сессия</th>
+        <th>Всего</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <button id="b__confirm">&check;</button>
+  <button id="b__endSession">Конец сессии</button>
+  <br><br>
+  <button id="b__downloadData" >Скачать</button>
+  <button id="b__uploadData"   style="float: right;">Загрузить</button>
+
 </body>
 <script src="index.js"></script>
 </html>
