@@ -44,6 +44,10 @@ function loadFromStorage() {
   unserializeTable(localStorage.getItem(LS_STATS_JSON_KEY))
 }
 
+function clearStorage() {
+  localStorage.removeItem(LS_STATS_JSON_KEY)
+}
+
 //////////////////// DATA SERIALIZATION/SAVING/LOADING ///////////////////////
 
 function serializeTable() {
@@ -188,6 +192,11 @@ function switchSummaryEditClick() {
   }
 }
 
+function onClearStorageClick() {
+  if(!confirm('Это не требуется при обычном использовании. Сохраните данные!')) return
+  clearStorage()
+}
+
 function onVisibility() {
   if (document.visibilityState === 'hidden') {
     //TODO set LS flag "closed properly"
@@ -200,6 +209,7 @@ function init() {
   getEl('b__endSession').onclick = endSessionClick
   getEl('b__undo').onclick = undoClick
   getEl('b__allowEditSummary').onclick = switchSummaryEditClick
+  getEl('b__clearStorage').onclick = onClearStorageClick
 
   document.addEventListener("visibilitychange", onVisibility)
 
