@@ -1,0 +1,21 @@
+{
+  "name": "RollingHog dozen-gs-stat-counter",
+  "short_name": "RH DSC",
+  "description": "Roll stat counter for Dozen game system",
+ 
+  "scope":     "/dozen-gs-stat-counter/",
+  "start_url": "/dozen-gs-stat-counter/",
+ 
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+ 
+  "display": "standalone fullscreen", 
+ 
+  "icons": [
+      {
+        "src": "/dozen-gs-stat-counter/img/icon.png",
+        "type": "image/png",
+        "sizes": "169x169"
+      }
+  ]
+}

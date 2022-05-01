@@ -202,6 +202,17 @@ function onVisibility() {
   }
 }
 
+const GHP_PATH = '/dozen-gs-stat-counter'
+
+function startServiceWorker() {
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.register (
+      GHP_PATH + '/src/sw.js',
+      {scope: GHP_PATH + '/'}
+    )
+  }
+}
+
 function init() {
   getEl('b__downloadData').onclick = downloadJSON
   getEl('b__uploadData').addEventListener('click', uploadJSON, false)
@@ -215,6 +226,8 @@ function init() {
   fillStatTable()
 
   loadFromStorage()
+
+  startServiceWorker()
 }
 
 try {
