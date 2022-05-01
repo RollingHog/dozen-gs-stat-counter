@@ -9,13 +9,13 @@
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
  
-  "display": "fullscreen", 
+  "display": "offline", 
  
   "icons": [
       {
         "src": "/dozen-gs-stat-counter/img/icon.png",
         "type": "image/png",
-        "sizes": "169x169"
+        "sizes": "512x512"
       }
   ]
 }
