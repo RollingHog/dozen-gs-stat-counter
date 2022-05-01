@@ -136,5 +136,17 @@
   </div>
 
 </body>
+<script>
+  const GHP_PATH = '/dozen-gs-stat-counter'
+
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.register (
+      GHP_PATH + '/sw.js',
+      {scope: GHP_PATH + '/'}
+    ).catch( () => log('sevice worker failed'))
+  }
+
+  sta
+</script>
 <script src="src/index.js"></script>
 </html>
