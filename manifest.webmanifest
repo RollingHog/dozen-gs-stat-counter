@@ -1,6 +1,7 @@
 {
   "name": "RollingHog dozen-gs-stat-counter",
   "short_name": "RH DSC",
+  "id": "/dozen-gs-stat-counter/",
   "description": "Roll stat counter for Dozen game system",
  
   "scope":     "/dozen-gs-stat-counter/",
