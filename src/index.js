@@ -206,10 +206,10 @@ const GHP_PATH = '/dozen-gs-stat-counter'
 
 function startServiceWorker() {
   if (navigator.serviceWorker) {
-    navigator.serviceWorker.register (
+    return navigator.serviceWorker.register (
       GHP_PATH + '/src/sw.js',
       {scope: GHP_PATH + '/'}
-    )
+    ).catch( () => log('sevice worker failed'))
   }
 }
 
