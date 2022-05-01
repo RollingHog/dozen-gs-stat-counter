@@ -11,3 +11,5 @@
 * Правила: https://bit.ly/2UCWEcz
 * Видео: https://www.youtube.com/watch?v=wDGlAXqqMCw
 * Видео в ВК: https://vk.com/video-157583044_456240375
+Инструкция по превращению Github Pages в PWA:
+* https://christianheilmann.com/2022/01/13/turning-a-github-page-into-a-progressive-web-app/
