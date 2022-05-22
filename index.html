@@ -114,6 +114,7 @@
 </head>
 <body>
 
+  <!-- stats table -->
   <table id="table__stats">
     <thead>
       <tr>
@@ -142,15 +143,15 @@
 
 </body>
 <script>
-  const GHP_PATH = '/dozen-gs-stat-counter'
-
   if (navigator.serviceWorker) {
+    const path = '/dozen-gs-stat-counter'
     navigator.serviceWorker.register (
-      GHP_PATH + '/sw.js',
-      {scope: GHP_PATH + '/'}
+      path + '/sw.js',
+      {scope: path + '/'}
     ).catch( () => console.log('sevice worker failed'))
   }
 
 </script>
+<script src="sw.js"></script>
 <script src="src/index.js"></script>
 </html>
