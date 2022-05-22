@@ -237,7 +237,7 @@ let lastStats = {
     for(let i of ECharacteristicsList) {
       el = getEl(`${i}-row`)
       if(!el) continue
-      if(unique.has(i)) 
+      if(unique.has(i))
         el.style.background = 'green'
       else
         el.style.background = ''
@@ -285,6 +285,10 @@ function endSessionClick() {
 }
 
 function switchSummaryEditClick() {
+  getEl('b__allowEditSummary').style.textDecoration =
+    getEl('b__allowEditSummary').style.textDecoration == 'underline'
+    ? ''
+    : 'underline'
   for(let i of Array.from(document.querySelectorAll('.всего')) ) {
     i.contentEditable = i.contentEditable == 'true' ? 'false' : 'true'
   }
