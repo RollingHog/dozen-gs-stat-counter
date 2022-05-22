@@ -215,7 +215,35 @@ function fillStatTable(statJSON = {}) {
   }
 }
 
-let lastStats = []
+let lastStats = {
+  maxSize: 5,
+  data: [],
+  push(statName) {
+    if(this.data.length == this.maxSize) this.data.shift()
+    this.data.push(statName)
+    this.redraw()
+  },
+  pop() {
+    const res = this.data.pop()
+    this.redraw()
+    return res
+  },
+  clear() {
+    this.data = []
+  },
+  redraw() {
+    const unique = new Set(this.data)
+    let el = null
+    for(let i of ECharacteristicsList) {
+      el = getEl(`${i}-row`)
+      if(!el) continue
+      if(unique.has(i)) 
+        el.style.background = 'green'
+      else
+        el.style.background = ''
+    }
+  },
+}
 
 /** @param {HTMLTableCellElement} el*/
 // eslint-disable-next-line no-unused-vars
@@ -223,7 +251,6 @@ function statTableClick(statName) {
   getEl(`${statName}-сессия`).innerText = +getEl(`${statName}-сессия`).innerText + 1
   getEl(`${statName}-всего`).innerText = +getEl(`${statName}-всего`).innerText + 1
 
-  if(lastStats.length == 10) lastStats.shift()
   lastStats.push(statName)
 
   lsw.table.save()
@@ -254,7 +281,7 @@ function endSessionClick() {
   }
 
   lsw.all.save()
-  lastStats = []
+  lastStats.clear()
 }
 
 function switchSummaryEditClick() {
