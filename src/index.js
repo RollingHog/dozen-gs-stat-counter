@@ -103,8 +103,8 @@ function serializeTable() {
   }
 
   for (let i of ECharacteristicsList) {
-    json.stats.session[i] = +getEl(`${i}-сессия`).innerText
-    json.stats.total[i]   = +getEl(`${i}-всего`).innerText
+    json.stats.session[i] = +getEl(`${i}-сессия`).innerText || 0
+    json.stats.total[i]   = +getEl(`${i}-всего`).innerText  || 0
   }
 
   return json
