@@ -24,7 +24,7 @@
     #table__stats {
       border: 1px solid grey;
       width: 100vw;
-      height: 110vh;
+      height: 130vh;
       border-collapse: collapse;
     }
 
@@ -74,7 +74,7 @@
       height: 8vh;
     }
 
-    #b__undo, #b__endSession, #b__allowEditSummary, #b__clearStorage {
+    #b__undo, #b__endSession, #b__allowEditSummary, #b__clearStorage, #b__forceReload {
       width: 100%;
     }
 
@@ -107,7 +107,7 @@
       }
 
       button, .inline-container {
-        height: 18.5vh;
+        height: 15vh;
       }
     }
   </style>
@@ -138,6 +138,7 @@
     <!-- other options -->
     <button id="b__allowEditSummary" class="margin-top">Ручной ввод столбца "Всего" вкл/выкл</button>
     <button id="b__clearStorage" class="margin-top">Очистить локальное хранилище</button>
+    <button id="b__forceReload" class="margin-top" onclick="location.reload(true)">Обновить страницу</button>
     <span >Ver. <span id="el__version">_._._</span></span>
     <a href="https://github.com/RollingHog/dozen-gs-stat-counter" style="float: right; color: white;">Github</a>
   </div>
