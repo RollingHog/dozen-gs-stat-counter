@@ -1,3 +1,6 @@
+/* global
+  VERSION
+*/
 const ECharacteristicsList = [
   'Бой',
   'Внимательность',
@@ -12,7 +15,16 @@ const ECharacteristicsList = [
 
   'Удача',
   'Скверна',
+  'Воля',
+  'Мягкосердечие',
 ]
+
+let stateData = {
+  sessions: {
+    count: 0,
+    history: [],
+  },
+}
 
 /** @type {HTMLTableElement} */
 const STATS_TABLE_EL = getEl('table__stats')
@@ -33,19 +45,47 @@ function createElementFromHTML(htmlString) {
 
 ////////////// LOCALSTORAGE OPERATIONS /////////////
 
-//TODO add name/time checking to avoid overwrite?
-const LS_STATS_JSON_KEY = 'STATS.LATEST'
+/**
+ * localStorage wrapper
+ */
+const lsw = {
+  table: {
+    key: 'STATS.LATEST',
+    save() {
+      localStorage.setItem(this.key, JSON.stringify(serializeTable()))
+    },
 
-function saveToStorage() {
-  localStorage.setItem(LS_STATS_JSON_KEY, JSON.stringify(serializeTable()))
-}
+    load() {
+      unserializeTable(localStorage.getItem(this.key))
+    },
 
-function loadFromStorage() {
-  unserializeTable(localStorage.getItem(LS_STATS_JSON_KEY))
-}
+    clear() {
+      localStorage.removeItem(this.key)
+    },
+  },
 
-function clearStorage() {
-  localStorage.removeItem(LS_STATS_JSON_KEY)
+  sessions: {
+    key: 'SESSIONS',
+    save() {
+      localStorage.setItem(this.key, JSON.stringify(stateData.sessions) )
+    },
+
+    load() {
+      stateData.sessions = JSON.parse(localStorage.getItem(this.key)) || stateData.sessions
+    },
+  },
+
+  all: {
+    save() {
+      lsw.table.save()
+      lsw.sessions.save()
+    },
+
+    load() {
+      lsw.table.load()
+      lsw.sessions.load()
+    },
+  },
 }
 
 //////////////////// DATA SERIALIZATION/SAVING/LOADING ///////////////////////
@@ -54,8 +94,8 @@ function serializeTable() {
   const json = {
     // FIXME add game name requesting!
     gameName: 'test',
+    version: VERSION,
     timestamp: (new Date()).toJSON(),
-    sessionsCount: 0,
     stats: {
       session: {},
       total:   {}
@@ -74,7 +114,10 @@ function unserializeTable(str) {
   if(!str) return null
 
   let json
-  json = JSON.parse(str)
+  if(typeof str == 'string')
+    json = JSON.parse(str)
+  else
+    json = str
 
   for (let i of ECharacteristicsList) {
     getEl(`${i}-сессия`).innerText = +json.stats.session[i]
@@ -84,9 +127,30 @@ function unserializeTable(str) {
   //TODO add save/load of other fields
 }
 
+function serializeAll() {
+  let json = serializeTable()
+
+  json = Object.assign(json, {
+    sessions: stateData.sessions,
+  })
+
+  return json
+}
+
+function unserializeAll(str) {
+  if(!str) return null
+
+  let json = JSON.parse(str)
+
+  stateData.sessions = json.sessions || stateData.sessions
+
+  unserializeTable(json)
+
+}
+
 function downloadJSON() {
   const DOWNLOAD_EL_NAME = 'downloadhref'
-  const json = serializeTable()
+  const json = serializeAll()
 
   if (!getEl(DOWNLOAD_EL_NAME)) {
     document.body.appendChild(
@@ -123,12 +187,12 @@ function handleSaveFileSelect(evt) {
   const reader = new FileReader()
   reader.onload = (function (e) {
     try {
-      unserializeTable(e.target.result)
+      unserializeAll(e.target.result)
     } catch(e) {
       alert(e)
       console.error(e)
     }
-    saveToStorage()
+    lsw.all.save()
   })
   reader.readAsText(file)
 }
@@ -162,7 +226,7 @@ function statTableClick(statName) {
   if(lastStats.length == 10) lastStats.shift()
   lastStats.push(statName)
 
-  saveToStorage()
+  lsw.table.save()
 }
 
 function undoClick() {
@@ -172,15 +236,24 @@ function undoClick() {
   getEl(`${lastStat}-сессия`).innerText = +getEl(`${lastStat}-сессия`).innerText - 1
   getEl(`${lastStat}-всего`).innerText  = +getEl(`${lastStat}-всего`).innerText  - 1
 
-  saveToStorage()
+  lsw.table.save()
 }
 
 function endSessionClick() {
   if(!confirm('Закончить сессию?')) return
+
+  const json = {
+    timestamp: (new Date()).toJSON(),
+    data: serializeTable().stats.session
+  }
+  stateData.sessions.count += 1
+  stateData.sessions.history.push(json)
+
   for (let i of document.querySelectorAll('.сессия')) {
     i.innerText = 0
   }
-  saveToStorage()
+
+  lsw.all.save()
   lastStats = []
 }
 
@@ -188,12 +261,12 @@ function switchSummaryEditClick() {
   for(let i of Array.from(document.querySelectorAll('.всего')) ) {
     i.contentEditable = i.contentEditable == 'true' ? 'false' : 'true'
   }
-  saveToStorage()
+  lsw.table.save()
 }
 
 function onClearStorageClick() {
   if(!confirm('Это не требуется при обычном использовании. Сохраните данные!')) return
-  clearStorage()
+  lsw.table.clear()
 }
 
 function onVisibility() {
@@ -214,7 +287,9 @@ function init() {
 
   fillStatTable()
 
-  loadFromStorage()
+  lsw.all.load()
+
+  getEl('el__version').innerText = VERSION
 
 }
 
