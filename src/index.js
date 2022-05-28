@@ -230,6 +230,7 @@ let lastStats = {
   },
   clear() {
     this.data = []
+    this.redraw()
   },
   redraw() {
     const unique = new Set(this.data)
