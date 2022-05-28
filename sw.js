@@ -6,7 +6,7 @@ const APP_PREFIX = 'rh_ghp_dsc'
 // The version of the cache. Every time you change any of the files
 // you need to change this version (version_01, version_02…).
 // eslint-disable-next-line no-unused-vars
-const VERSION = '2.1.1'
+const VERSION = '2.1.2'
 
 // The files to make available for offline use
 // eslint-disable-next-line no-unused-vars
