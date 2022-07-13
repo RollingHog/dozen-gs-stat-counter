@@ -77,6 +77,10 @@ const lsw = {
     load() {
       stateData.sessions = JSON.parse(localStorage.getItem(this.key)) || stateData.sessions
     },
+
+    clear() {
+      localStorage.removeItem(this.key)
+    },
   },
 
   all: {
@@ -88,6 +92,11 @@ const lsw = {
     load() {
       lsw.table.load()
       lsw.sessions.load()
+    },
+
+    clear() {
+      lsw.table.clear()
+      lsw.sessions.clear()
     },
   },
 }
@@ -304,7 +313,7 @@ function switchSummaryEditClick() {
 
 function onClearStorageClick() {
   if(!confirm('Это не требуется при обычном использовании. Сохраните данные!')) return
-  lsw.table.clear()
+  lsw.all.clear()
 }
 
 function onVisibility() {
