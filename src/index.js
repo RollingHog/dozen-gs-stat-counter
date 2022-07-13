@@ -272,10 +272,12 @@ function undoClick() {
 }
 
 function endSessionClick() {
-  if(!confirm('Закончить сессию?')) return
+  const comment = prompt('Закончить сессию?')
+  if(comment === null) return
 
   const json = {
     timestamp: (new Date()).toJSON(),
+    comment,
     data: serializeTable().stats.session
   }
   stateData.sessions.count += 1
