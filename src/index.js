@@ -306,9 +306,11 @@ function endSessionClick() {
 }
 
 function showStatClick() {
-  const res = JSON.parse(lsw.table.get())
+  const res = Array.from(getEl('table__stats').tBodies[0].rows)
+    .map(e => [e.children[1].innerText, +e.children[3].innerText])
+
   alert(
-    Object.entries(res.stats.total)
+    res
       .sort( (a,b) => b[1] - a[1]  )
       .map( e => `${e[0]}: ${e[1]}`)
       .join('\n')
