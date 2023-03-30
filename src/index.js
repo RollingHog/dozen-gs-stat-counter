@@ -60,8 +60,12 @@ const lsw = {
       localStorage.setItem(this.key, JSON.stringify(serializeTable()))
     },
 
+    get() {
+      return localStorage.getItem(this.key)
+    },
+
     load() {
-      unserializeTable(localStorage.getItem(this.key))
+      unserializeTable(this.get())
     },
 
     clear() {
@@ -301,6 +305,16 @@ function endSessionClick() {
   lastStats.clear()
 }
 
+function showStatClick() {
+  const res = JSON.parse(lsw.table.get())
+  alert(
+    Object.entries(res.stats.total)
+      .sort( (a,b) => b[1] - a[1]  )
+      .map( e => `${e[0]}: ${e[1]}`)
+      .join('\n')
+  )
+}
+
 function switchSummaryEditClick() {
   getEl('b__allowEditSummary').style.textDecoration =
     getEl('b__allowEditSummary').style.textDecoration == 'underline'
@@ -327,6 +341,7 @@ function init() {
   getEl('b__downloadData').onclick = downloadJSON
   getEl('b__uploadData').addEventListener('click', uploadJSON, false)
   getEl('b__endSession').onclick = endSessionClick
+  getEl('b__showStat').onclick = showStatClick
   getEl('b__undo').onclick = undoClick
   getEl('b__allowEditSummary').onclick = switchSummaryEditClick
   getEl('b__clearStorage').onclick = onClearStorageClick
