@@ -11,6 +11,7 @@ const ECharacteristicsList = [
   'Коварство',
   'Красноречие',
   'Ловкость',
+  'Лидерство',
 
   'Медицина',
   'Местность',
@@ -133,8 +134,8 @@ function unserializeTable(str) {
     json = str
 
   for (let i of ECharacteristicsList) {
-    getEl(`${i}-сессия`).innerText = +json.stats.session[i]
-    getEl(`${i}-всего`).innerText = +json.stats.total[i]
+    getEl(`${i}-сессия`).innerText = +json.stats.session[i] || 0
+    getEl(`${i}-всего`).innerText = +json.stats.total[i] || 0
   }
 
   //TODO add save/load of other fields
